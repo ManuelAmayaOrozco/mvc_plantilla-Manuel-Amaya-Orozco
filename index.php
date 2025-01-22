@@ -22,9 +22,10 @@
     */
 
     $requestUri = $_SERVER["REQUEST_URI"] ?? "";
+    $parseUri = parse_url($requestUri);
 
     // Como ya sabemos a qué URI quiere acceder el cliente, podemos cargar el Controller asociado
-    switch ($requestUri) {
+    switch ($parseUri["path"]) {
         case "/mvc_plantilla-Manuel-Amaya-Orozco/landing":
             // Cargamos LandingController
             require_once "./controllers/landingController.php";
@@ -32,13 +33,21 @@
             // LLAMAR AL MÉTODO DE LANDING CONTROLLER RESPONSABLE DE CARGAR LA PÁGINA
             $landingController->cargarVistaLanding();
             break;
-            case "/mvc_plantilla-Manuel-Amaya-Orozco/citas/allCitas":
-                // Cargamos LandingController
-                require_once "./controllers/citaController.php";
-                $citaController = new CitaController();
-                // LLAMAR AL MÉTODO DE LANDING CONTROLLER RESPONSABLE DE CARGAR LA PÁGINA
-                $citaController->cargarListAllCitas();
-                break;
+        case "/mvc_plantilla-Manuel-Amaya-Orozco/citas/allCitas":
+            // Cargamos LandingController
+            require_once "./controllers/citaController.php";
+            $citaController = new CitaController();
+            // LLAMAR AL MÉTODO DE LANDING CONTROLLER RESPONSABLE DE CARGAR LA PÁGINA
+            $citaController->cargarListAllCitas();
+            break;
+        case "/mvc_plantilla-Manuel-Amaya-Orozco/citas":
+            $nombre = $_GET["nombre"];
+            // Cargamos LandingController
+            require_once "./controllers/citaController.php";
+            $citaController = new CitaController();
+            // LLAMAR AL MÉTODO DE LANDING CONTROLLER RESPONSABLE DE CARGAR LA PÁGINA
+            $citaController->cargarListCitasTatuador($nombre);
+            break;
         default:
             // CARGAR EL CONTROLLER ASOCIADO A MOSTRAR LA PÁGINA 404
             require_once "./controllers/notFoundController.php";
