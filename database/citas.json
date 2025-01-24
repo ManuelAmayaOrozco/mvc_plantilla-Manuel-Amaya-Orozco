@@ -12,26 +12,5 @@
         "fecha_cita": "22-01-2025 18:30:00",
         "cliente": "Pedro",
         "tatuador": "Alicia"
-    },
-    {
-        "id": "4",
-        "descripcion": "Ni idea",
-        "fecha_cita": "31-01-12",
-        "cliente": "Manuel",
-        "tatuador": "Pepe"
-    },
-    {
-        "id": "4",
-        "descripcion": "Ni idea",
-        "fecha_cita": "2025-01-24T21:10",
-        "cliente": "Manuel",
-        "tatuador": "pEPE"
-    },
-    {
-        "id": "4",
-        "descripcion": "Ni idea",
-        "fecha_cita": "2025-01-24T21:10",
-        "cliente": "Manuel",
-        "tatuador": "PEPE"
     }
 ]

@@ -75,13 +75,13 @@
                     $descripcion = $post_data["input_descripcion"];
                     $fecha_cita = $post_data["input_fecha_cita"];
                     $cliente = $post_data["input_cliente"];
-                    $tatuador = $post_data["input_tatuador"];
+                    $tatuadorNombre = $post_data["input_tatuador"];
 
                     // 3º INSERTAR UNA NUEVA CITA SI ESTÁ LIBRE
                     $citaDisponible = true;
                     foreach ($citasPresentes as $cita) {
 
-                        if ($cita["fecha_cita"] == $fecha_cita && $cita["tatuador"] == $tatuador) {
+                        if ($cita["fecha_cita"] == $fecha_cita && $cita["tatuador"] == $tatuadorNombre) {
 
                             $citaDisponible = false;
 
@@ -91,11 +91,24 @@
 
                     if ($citaDisponible) {
 
-                        $citaNueva = new Cita($id, $descripcion, $fecha_cita, $cliente, $tatuador);
+                        $citaNueva = new Cita($id, $descripcion, $fecha_cita, $cliente, $tatuadorNombre);
                         $citasPresentes[] = $citaNueva;
 
                         // 4º INSERTO EN FICHERO
                         $this->citaModel->guardarCitas($citasPresentes);
+
+                        $tatuadores = $this->tatuadorModel->leerTatuadores();
+
+                        foreach ($tatuadores as $tat) {
+
+                            if ($tat["nombre"] == $tatuadorNombre) {
+
+                                $tatuadorFoto = $tat["foto"];
+                                break;
+
+                            }
+
+                        }
 
                         require_once "./views/AltaCitaCorrectaView.php";
 
