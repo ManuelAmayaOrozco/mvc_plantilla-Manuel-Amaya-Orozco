@@ -48,6 +48,35 @@
             // LLAMAR AL MÉTODO DE LANDING CONTROLLER RESPONSABLE DE CARGAR LA PÁGINA
             $citaController->cargarListCitasTatuador($nombre);
             break;
+        case "/mvc_plantilla-Manuel-Amaya-Orozco/citas/alta":
+            // Cargamos LandingController
+            require_once "./controllers/citaController.php";
+            $citaController = new CitaController();
+            // LLAMAR AL MÉTODO DE LANDING CONTROLLER RESPONSABLE DE CARGAR LA PÁGINA
+
+            $requestMethod = $_SERVER["REQUEST_METHOD"] ?? ""; // REQUEST_METHOD nos da GET, POST o... la que venga
+
+            if($requestMethod == "POST") {
+
+                // GUARDAR LA CITA
+                $citaController->guardarCita($_POST);
+
+            } elseif ($requestMethod == "GET") {
+
+                // MOSTRAR EL FORM
+                $citaController->cargarAltaCitaView();
+
+            } else {
+
+                // MOSTRAR UNA PÁGINA 405 Method Not Allowed (o en este caso 404 por ahora)
+                require_once "./controllers/notFoundController.php";
+                $notFoundController = new NotFoundController();
+                $notFoundController->cargarVista404();
+                break;
+
+            }
+
+            break;
         default:
             // CARGAR EL CONTROLLER ASOCIADO A MOSTRAR LA PÁGINA 404
             require_once "./controllers/notFoundController.php";

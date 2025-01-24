@@ -12,9 +12,9 @@
 
         }
 
-        public function guardarCitas() { // saveCita
+        public function guardarCitas($datos) { // saveCita
 
-            // TODO
+            $this->handleJson->saveToJson($datos);
 
         }
 

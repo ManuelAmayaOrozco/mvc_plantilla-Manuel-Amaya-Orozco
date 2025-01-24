@@ -1,6 +1,7 @@
 <?php
 
     require_once "./models/citaModel.php";
+    require_once "./models/cita.php";
 
     class CitaController {
 
@@ -43,6 +44,67 @@
 
             // 2º CARGAMOS LA VISTA
             require_once "./views/listaCitasTatuadorView.php";
+
+        }
+
+        public function cargarAltaCitaView($error = false) {
+
+            require_once "./views/AltaCitaView.php";
+
+        }
+
+        public function guardarCita($post_data = null) {
+
+            if (isset($post_data) 
+                && $post_data["input_id"] 
+                && $post_data["input_descripcion"] 
+                && $post_data["input_fecha_cita"] 
+                && $post_data["input_cliente"] 
+                && $post_data["input_tatuador"]) {
+
+                    // 1º OBTENER TODAS LAS CITAS
+                    $citasPresentes = $this->citaModel->leerCitas();
+
+                    // 2º EXTRAER EN VARIABLES
+                    $id = $post_data["input_id"];
+                    $descripcion = $post_data["input_descripcion"];
+                    $fecha_cita = $post_data["input_fecha_cita"];
+                    $cliente = $post_data["input_cliente"];
+                    $tatuador = $post_data["input_tatuador"];
+
+                    // 3º INSERTAR UNA NUEVA CITA SI ESTÁ LIBRE
+                    $citaDisponible = true;
+                    foreach ($citasPresentes as $cita) {
+
+                        if ($cita["fecha_cita"] == $fecha_cita && $cita["tatuador"] == $tatuador) {
+
+                            $citaDisponible = false;
+
+                        }
+
+                    }
+
+                    if ($citaDisponible) {
+
+                        $citaNueva = new Cita($id, $descripcion, $fecha_cita, $cliente, $tatuador);
+                        $citasPresentes[] = $citaNueva;
+
+                        // 4º INSERTO EN FICHERO
+                        $this->citaModel->guardarCitas($citasPresentes);
+
+                        require_once "./views/AltaCitaCorrectaView.php";
+
+                    } else {
+
+                        // ERROR
+                        $error = true;
+                        $this->cargarAltaCitaView($error);
+
+                    }
+
+            
+
+            }
 
         }
 
