@@ -26,6 +26,32 @@
 
     // Como ya sabemos a qué URI quiere acceder el cliente, podemos cargar el Controller asociado
     switch ($parseUri["path"]) {
+        case "/mvc_plantilla-Manuel-Amaya-Orozco/usuarios/get":
+            require_once "./models/usuariosModel.php";
+            $usuariosModel = new UsuariosModel();
+            //$usuariosModel->getUsuario(1);
+            //$usuariosModel->getUsuario(2);
+            //$usuariosModel->getUsuario(3);
+            break;
+        case "/mvc_plantilla-Manuel-Amaya-Orozco/login":
+            require_once "./controllers/loginController.php";
+            $loginController = new LoginController();
+
+            $requestMethod = $_SERVER["REQUEST_METHOD"]; // Va a ser GET o POST
+
+            if($requestMethod == "GET") {
+
+                $loginController->showLogin();
+
+            } elseif ($requestMethod == "POST") {
+
+                $datos = $_POST ?? [];
+
+                $loginController->login($datos);
+
+            }
+
+            break;
         case "/mvc_plantilla-Manuel-Amaya-Orozco/landing":
             // Cargamos LandingController
             require_once "./controllers/landingController.php";
